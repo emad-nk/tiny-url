@@ -1,1 +1,26 @@
+logging.level:
+  root: INFO
+  org.hibernate.dialect.Dialect: warn
 
+spring:
+  flyway:
+    enabled: true
+  jpa:
+    database: POSTGRESQL
+    generate-ddl: false
+    open-in-view: false
+    properties:
+      hibernate:
+        show_sql: false # This is the default -- we have the property here, so we can easily enable SQL logging.
+  cache:
+    type: redis
+  data:
+    redis:
+      repositories:
+        enabled: false
+      port: 6379
+      host: localhost
+  datasource:
+    url: jdbc:postgresql://localhost:5432/test
+    username: user
+    password: pass
