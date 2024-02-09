@@ -2,6 +2,7 @@ package com.tinyurl.service
 
 import com.tinyurl.common.convertToBase62
 import com.tinyurl.common.take7Chars
+import com.tinyurl.controller.dto.UrlRequestDTO
 import com.tinyurl.controller.dto.UrlResponseDTO
 import com.tinyurl.domain.model.Url
 import com.tinyurl.domain.repository.UrlRepository
@@ -18,17 +19,17 @@ class TinyUrlService(
     private val tinyUrlProperties: TinyUrlProperties,
 ) {
 
-    fun createTinyUrl(url: String): UrlResponseDTO {
-        urlRepository.findByOriginalUrl(url)?.let {
+    fun createTinyUrl(urlRequestDTO: UrlRequestDTO): UrlResponseDTO {
+        urlRepository.findByOriginalUrl(urlRequestDTO.originalUrl)?.let {
             return UrlResponseDTO(tinyUrl = "${tinyUrlProperties.baseUrl}${it.tinyUrlWithoutDomain}")
         }
         val id = urlRepository.getNewId()
         val tinyUrlWithoutDomain = convertToBase62(id).take7Chars()
         return try {
-            urlRepository.save(Url(id = id, tinyUrlWithoutDomain = tinyUrlWithoutDomain, originalUrl = url))
+            urlRepository.save(Url(id = id, tinyUrlWithoutDomain = tinyUrlWithoutDomain, originalUrl = urlRequestDTO.originalUrl))
             UrlResponseDTO(tinyUrl = "${tinyUrlProperties.baseUrl}$tinyUrlWithoutDomain")
         } catch (ex: DataIntegrityViolationException) {
-            return handleDuplicateKey(url)
+            return handleDuplicateKey(urlRequestDTO.originalUrl)
         }
     }
 

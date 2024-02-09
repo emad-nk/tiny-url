@@ -31,4 +31,19 @@ redis:
     url-by-tiny-url: 1h
 
 tiny-url:
-  base-url: https://www.tinyurl.com/
+  base-url: http://localhost:8080/
+
+--- ########################################################################
+spring.config.activate.on-profile: integration-test
+
+tiny-url:
+  base-url: https://tinyurl.com/
+
+--- ########################################################################
+spring.config.activate.on-profile: local
+
+--- ########################################################################
+spring.config.activate.on-profile: staging
+
+--- ########################################################################
+spring.config.activate.on-profile: prod

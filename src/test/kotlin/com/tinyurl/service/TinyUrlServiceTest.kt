@@ -1,5 +1,6 @@
 package com.tinyurl.service
 
+import com.tinyurl.controller.dto.UrlRequestDTO
 import com.tinyurl.domain.repository.UrlRepository
 import com.tinyurl.dummyUrl
 import com.tinyurl.exception.UrlNotFoundException
@@ -27,7 +28,7 @@ class TinyUrlServiceTest{
         every { urlRepository.save(any()) } returns dummyUrl()
         every { urlRepository.getNewId() } returns 1000
 
-        val responseDTP = tinyUrlService.createTinyUrl("https://google.com")
+        val responseDTP = tinyUrlService.createTinyUrl(UrlRequestDTO("https://google.com"))
 
         assertThat(responseDTP.tinyUrl).isEqualTo("https://tinyurl.com/4FQZqy")
     }
@@ -36,7 +37,7 @@ class TinyUrlServiceTest{
     fun `does not create a tiny url when the original url already exists`() {
         every { urlRepository.findByOriginalUrl(any()) } returns dummyUrl(tinyUrlWithoutDomain = "tzxa")
 
-        val responseDTP = tinyUrlService.createTinyUrl("https://google.com")
+        val responseDTP = tinyUrlService.createTinyUrl(UrlRequestDTO("https://google.com"))
 
         assertThat(responseDTP.tinyUrl).isEqualTo("https://tinyurl.com/tzxa")
         verify(exactly = 0) { urlRepository.getNewId() }
@@ -50,7 +51,7 @@ class TinyUrlServiceTest{
         every { urlRepository.getLatestId() } returns 999
         every { urlRepository.setNewId(any()) } returns 999
         every { urlRepository.save(any()) } throws DataIntegrityViolationException("") andThen dummyUrl()
-        val responseDTP = tinyUrlService.createTinyUrl("https://google.com")
+        val responseDTP = tinyUrlService.createTinyUrl(UrlRequestDTO("https://google.com"))
 
         assertThat(responseDTP.tinyUrl).isEqualTo("https://tinyurl.com/4FQZqy")
         verify(exactly = 1) { urlRepository.setNewId(any()) }

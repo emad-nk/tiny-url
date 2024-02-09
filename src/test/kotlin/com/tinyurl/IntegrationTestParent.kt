@@ -1,5 +1,6 @@
 package com.tinyurl
 
+import io.restassured.RestAssured
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.TestInstance
@@ -38,6 +39,7 @@ abstract class IntegrationTestParent {
     fun setup() {
         resetDatabase()
         resetRedis()
+        setupRestAssured()
     }
 
     private fun resetDatabase() {
@@ -48,6 +50,10 @@ abstract class IntegrationTestParent {
 
     private fun resetRedis() {
         redisTemplate.execute { conn -> conn.serverCommands().flushAll() }
+    }
+
+    private fun setupRestAssured() {
+        RestAssured.port = localPort
     }
 
     companion object {
