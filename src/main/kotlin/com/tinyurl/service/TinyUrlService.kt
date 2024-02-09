@@ -5,7 +5,7 @@ import com.tinyurl.common.take7Chars
 import com.tinyurl.controller.dto.UrlResponseDTO
 import com.tinyurl.domain.model.Url
 import com.tinyurl.domain.repository.UrlRepository
-import com.tinyurl.exception.TinyUrlNotFoundException
+import com.tinyurl.exception.UrlNotFoundException
 import com.tinyurl.property.TinyUrlProperties
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.dao.DataIntegrityViolationException
@@ -35,7 +35,7 @@ class TinyUrlService(
     fun getOriginalUrl(tinyUrlWithoutDomain: String): String {
         return urlRepository.findUrlByTinyUrlWithoutDomain(tinyUrlWithoutDomain = tinyUrlWithoutDomain)?.let {
             return it.originalUrl
-        } ?: throw TinyUrlNotFoundException("Tiny url ${tinyUrlProperties.baseUrl}$tinyUrlWithoutDomain not found")
+        } ?: throw UrlNotFoundException("Tiny url ${tinyUrlProperties.baseUrl}$tinyUrlWithoutDomain not found")
     }
 
     /**
