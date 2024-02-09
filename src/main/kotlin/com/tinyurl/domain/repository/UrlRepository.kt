@@ -12,4 +12,11 @@ interface UrlRepository: JpaRepository<Url, Long> {
         """
     )
     fun getNewId(): Long
+
+    @Query(
+        """
+            select setval(pg_get_serial_sequence('url', 'id'), :id) as new_id
+        """
+    )
+    fun setNewId(id: Long): Long
 }

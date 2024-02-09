@@ -10,7 +10,8 @@ class UrlRepositoryIT(
 ): IntegrationTestParent() {
 
     @Test
-    fun `retrieves the next id`(){
-        assertThat(urlRepository.getNewId()).isGreaterThan(0)
+    fun `sets the current id and retrieves the next id`(){
+        urlRepository.setNewId(10)
+        assertThat(urlRepository.getNewId()).isEqualTo(11)
     }
 }
