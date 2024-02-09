@@ -1,14 +1,16 @@
 package com.tinyurl
 
+import com.tinyurl.common.take7Chars
 import com.tinyurl.domain.model.Url
+import java.util.UUID
 
 fun dummyUrl(
     id: Long = 1L,
-    base62: String = "xyz",
+    tinyUrlWithoutDomain: String = UUID.randomUUID().toString().take7Chars(),
     originalUrl: String = "www.tinyurl.com",
 ): Url =
     Url(
         id = id,
-        base62 = base62,
+        tinyUrlWithoutDomain = tinyUrlWithoutDomain,
         originalUrl = originalUrl,
     )

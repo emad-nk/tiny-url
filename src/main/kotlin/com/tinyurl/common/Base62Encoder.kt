@@ -3,7 +3,7 @@ package com.tinyurl.common
 import io.seruco.encoding.base62.Base62
 
 private val base62 = Base62.createInstance()
-fun convertToBase62(id: Int): String {
+fun convertToBase62(id: Long): String {
     return String(base62.encode(numberToByteArray(id)))
 }
 

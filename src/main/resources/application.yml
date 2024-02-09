@@ -24,3 +24,11 @@ spring:
     url: jdbc:postgresql://localhost:5432/test
     username: user
     password: pass
+
+redis:
+  ttl:
+    url-by-original-url: 1h
+    url-by-tiny-url: 1h
+
+tiny-url:
+  base-url: https://www.tinyurl.com/
