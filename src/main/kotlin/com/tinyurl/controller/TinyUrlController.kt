@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
 import io.swagger.v3.oas.annotations.tags.Tag
+import jakarta.validation.Valid
 import org.springframework.http.HttpStatus.CREATED
 import org.springframework.http.HttpStatus.MOVED_PERMANENTLY
 import org.springframework.http.MediaType.APPLICATION_JSON_VALUE
@@ -36,7 +37,7 @@ class TinyUrlController(
     @PostMapping("/api/v1/urls", produces = [APPLICATION_JSON_VALUE])
     @ResponseStatus(code = CREATED)
     fun createTinyUrl(
-        @RequestBody urlRequestDTO: UrlRequestDTO,
+        @Valid @RequestBody urlRequestDTO: UrlRequestDTO,
     ): UrlResponseDTO = tinyUrlService.createTinyUrl(urlRequestDTO)
 
     @Operation(description = "Returns the original url from the provided tiny url. Endpoint is without /v1/api/ to mimic Tinyurl")

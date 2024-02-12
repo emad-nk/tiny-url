@@ -10,7 +10,7 @@ data class Url(
     val id: Long,
     val tinyUrlWithoutDomain: String,
     val originalUrl: String,
-): Serializable {
+) : Serializable {
 
     companion object {
         private const val serialVersionUID = 6498378134993474269L

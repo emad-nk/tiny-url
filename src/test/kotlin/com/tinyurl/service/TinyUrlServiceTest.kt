@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.springframework.dao.DataIntegrityViolationException
 
-class TinyUrlServiceTest{
+class TinyUrlServiceTest {
 
     private val urlRepository = mockk<UrlRepository>()
     private val tinyUrlProperties = TinyUrlProperties(baseUrl = "https://tinyurl.com/")

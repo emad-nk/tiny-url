@@ -8,11 +8,11 @@ fun convertToBase62(id: Long): String {
 }
 
 fun String.take7Chars(): String {
-    if(this.length >= 7){
+    if (this.length >= 7) {
         return this.substring(startIndex = 0, endIndex = 7)
     }
     return this
 }
 
-private fun numberToByteArray (data: Number, size: Int = 4) : ByteArray =
-    ByteArray (size) {i -> (data.toLong() shr (i*8)).toByte()}
+private fun numberToByteArray(data: Number, size: Int = 4): ByteArray =
+    ByteArray(size) { i -> (data.toLong() shr (i * 8)).toByte() }

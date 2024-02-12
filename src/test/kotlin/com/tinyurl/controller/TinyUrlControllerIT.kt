@@ -3,6 +3,8 @@ package com.tinyurl.controller
 import com.tinyurl.IntegrationTestParent
 import com.tinyurl.common.convertToBase62
 import com.tinyurl.common.take7Chars
+import com.tinyurl.controller.ControllerExceptionHandler.ValidationError
+import com.tinyurl.controller.RequestUrlValidator.Companion.URL_VALIDATION_ERROR
 import com.tinyurl.controller.dto.UrlRequestDTO
 import com.tinyurl.controller.dto.UrlResponseDTO
 import com.tinyurl.domain.repository.UrlRepository
@@ -44,6 +46,27 @@ class TinyUrlControllerIT(
             .`as`(UrlResponseDTO::class.java)
 
         assertThat(response.tinyUrl).isEqualTo(expectedTinyUrl)
+    }
+
+    @Test
+    fun `throws bad request exception when URL is invalid`() {
+        val urlRequest = UrlRequestDTO(
+            originalUrl = "bad-url",
+        )
+
+        val response = given()
+            .contentType(JSON)
+            .body(urlRequest)
+            .`when`()
+            .post(TINY_URL_URI)
+            .then()
+            .log().ifValidationFails()
+            .statusCode(HttpStatus.SC_BAD_REQUEST)
+            .extract()
+            .body()
+            .`as`(ValidationError::class.java)
+
+        assertThat(response.message).isEqualTo(URL_VALIDATION_ERROR)
     }
 
     @Test
