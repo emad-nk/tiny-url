@@ -1,7 +1,7 @@
 package com.tinyurl.controller.validation
 
-import com.tinyurl.controller.validation.RequestUrlValidator.Companion.URL_VALIDATION_ERROR
 import com.tinyurl.controller.dto.UrlRequestDTO
+import com.tinyurl.controller.validation.RequestUrlValidator.Companion.URL_VALIDATION_ERROR
 import jakarta.validation.Constraint
 import jakarta.validation.ConstraintValidator
 import jakarta.validation.ConstraintValidatorContext

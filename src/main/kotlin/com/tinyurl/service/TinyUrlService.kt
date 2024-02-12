@@ -55,6 +55,6 @@ class TinyUrlService(
     }
 
     companion object {
-        private val LOGGER = KotlinLogging.logger {  }
+        private val LOGGER = KotlinLogging.logger { }
     }
 }
