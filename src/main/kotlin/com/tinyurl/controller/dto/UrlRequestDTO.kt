@@ -1,6 +1,6 @@
 package com.tinyurl.controller.dto
 
-import com.tinyurl.controller.ValidateUrl
+import com.tinyurl.controller.validation.ValidateUrl
 
 @ValidateUrl
 data class UrlRequestDTO(

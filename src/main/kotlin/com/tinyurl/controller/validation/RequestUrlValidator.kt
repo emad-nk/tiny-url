@@ -1,6 +1,6 @@
-package com.tinyurl.controller
+package com.tinyurl.controller.validation
 
-import com.tinyurl.controller.RequestUrlValidator.Companion.URL_VALIDATION_ERROR
+import com.tinyurl.controller.validation.RequestUrlValidator.Companion.URL_VALIDATION_ERROR
 import com.tinyurl.controller.dto.UrlRequestDTO
 import jakarta.validation.Constraint
 import jakarta.validation.ConstraintValidator

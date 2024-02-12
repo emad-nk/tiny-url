@@ -1,6 +1,6 @@
 package com.tinyurl.controller
 
-import com.tinyurl.controller.RequestUrlValidator.Companion.URL_VALIDATION_ERROR
+import com.tinyurl.controller.validation.RequestUrlValidator.Companion.URL_VALIDATION_ERROR
 import com.tinyurl.exception.UrlNotFoundException
 import org.springframework.http.HttpStatus.BAD_REQUEST
 import org.springframework.http.HttpStatus.NOT_FOUND

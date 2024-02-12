@@ -8,6 +8,7 @@ import com.tinyurl.domain.model.Url
 import com.tinyurl.domain.repository.UrlRepository
 import com.tinyurl.exception.UrlNotFoundException
 import com.tinyurl.property.TinyUrlProperties
+import mu.KotlinLogging
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -27,6 +28,7 @@ class TinyUrlService(
         val id = urlRepository.getNewId()
 
         if (urlRepository.existsById(id)) {
+            LOGGER.warn { "Url exists by id $id, generating a new id" }
             return findNextAvailableId().generateTinyUrl(urlRequestDTO.originalUrl)
         }
         return id.generateTinyUrl(urlRequestDTO.originalUrl)
@@ -50,5 +52,9 @@ class TinyUrlService(
         val tinyUrlWithoutDomain = convertToBase62(this).take7Chars()
         urlRepository.save(Url(id = this, tinyUrlWithoutDomain = tinyUrlWithoutDomain, originalUrl = url))
         return UrlResponseDTO(tinyUrl = "${tinyUrlProperties.baseUrl}$tinyUrlWithoutDomain")
+    }
+
+    companion object {
+        private val LOGGER = KotlinLogging.logger {  }
     }
 }

@@ -1,7 +1,7 @@
 package com.tinyurl.domain.repository
 
-import com.tinyurl.common.CacheNames.URL_BY_ORIGINAL_URL
-import com.tinyurl.common.CacheNames.URL_BY_TINY_URL
+import com.tinyurl.configuration.CacheNames.URL_BY_ORIGINAL_URL
+import com.tinyurl.configuration.CacheNames.URL_BY_TINY_URL
 import com.tinyurl.domain.model.Url
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.data.jpa.repository.JpaRepository

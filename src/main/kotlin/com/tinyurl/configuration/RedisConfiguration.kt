@@ -1,4 +1,4 @@
-package com.tinyurl.common
+package com.tinyurl.configuration
 
 import com.tinyurl.property.RedisProperties
 import org.springframework.boot.context.properties.EnableConfigurationProperties

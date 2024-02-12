@@ -1,8 +1,8 @@
 package com.tinyurl.domain.repository
 
 import com.tinyurl.IntegrationTestParent
-import com.tinyurl.common.CacheNames.URL_BY_ORIGINAL_URL
-import com.tinyurl.common.CacheNames.URL_BY_TINY_URL
+import com.tinyurl.configuration.CacheNames.URL_BY_ORIGINAL_URL
+import com.tinyurl.configuration.CacheNames.URL_BY_TINY_URL
 import com.tinyurl.dummyUrl
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
