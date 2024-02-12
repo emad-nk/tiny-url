@@ -4,9 +4,9 @@ import com.tinyurl.IntegrationTestParent
 import com.tinyurl.common.convertToBase62
 import com.tinyurl.common.take7Chars
 import com.tinyurl.controller.ControllerExceptionHandler.ValidationError
-import com.tinyurl.controller.validation.RequestUrlValidator.Companion.URL_VALIDATION_ERROR
 import com.tinyurl.controller.dto.UrlRequestDTO
 import com.tinyurl.controller.dto.UrlResponseDTO
+import com.tinyurl.controller.validation.RequestUrlValidator.Companion.URL_VALIDATION_ERROR
 import com.tinyurl.domain.repository.UrlRepository
 import com.tinyurl.dummyUrl
 import com.tinyurl.property.TinyUrlProperties

@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
+import mu.KotlinLogging
 import org.springframework.http.HttpStatus.CREATED
 import org.springframework.http.HttpStatus.MOVED_PERMANENTLY
 import org.springframework.http.MediaType.APPLICATION_JSON_VALUE
@@ -20,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 import java.net.URI
-import mu.KotlinLogging
 
 @RestController
 @Validated
@@ -60,7 +60,7 @@ class TinyUrlController(
         return ResponseEntity.status(MOVED_PERMANENTLY).location(URI(url)).build()
     }
 
-    companion object{
-        private val LOGGER = KotlinLogging.logger {  }
+    companion object {
+        private val LOGGER = KotlinLogging.logger { }
     }
 }
