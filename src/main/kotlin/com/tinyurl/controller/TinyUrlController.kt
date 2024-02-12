@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 import java.net.URI
+import mu.KotlinLogging
 
 @RestController
 @Validated
@@ -38,7 +39,10 @@ class TinyUrlController(
     @ResponseStatus(code = CREATED)
     fun createTinyUrl(
         @Valid @RequestBody urlRequestDTO: UrlRequestDTO,
-    ): UrlResponseDTO = tinyUrlService.createTinyUrl(urlRequestDTO)
+    ): UrlResponseDTO {
+        LOGGER.debug { "Received a request to create a tiny url from: $urlRequestDTO" }
+        return tinyUrlService.createTinyUrl(urlRequestDTO)
+    }
 
     @Operation(description = "Returns the original url from the provided tiny url. Endpoint is without /v1/api/ to mimic Tinyurl")
     @ApiResponses(
@@ -51,7 +55,12 @@ class TinyUrlController(
     fun getOriginalUrl(
         @PathVariable tinyUrlWithoutDomain: String,
     ): ResponseEntity<String> {
+        LOGGER.debug { "Received a request to get original URL from $tinyUrlWithoutDomain" }
         val url = tinyUrlService.getOriginalUrl(tinyUrlWithoutDomain)
         return ResponseEntity.status(MOVED_PERMANENTLY).location(URI(url)).build()
+    }
+
+    companion object{
+        private val LOGGER = KotlinLogging.logger {  }
     }
 }
