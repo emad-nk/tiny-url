@@ -7,6 +7,8 @@ import com.tinyurl.common.CacheNames.URL_BY_TINY_URL
 import com.tinyurl.dummyUrl
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.CsvSource
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.redis.core.RedisTemplate
 
@@ -40,6 +42,8 @@ class UrlRepositoryIT(
         assertThat(urlRepository.findUrlByTinyUrlWithoutDomain(tinyUrlWithoutDomain = url.tinyUrlWithoutDomain)).isEqualTo(url)
         assertThat(redisTemplate.keys("$URL_BY_TINY_URL*")).hasSize(1)
     }
+
+
 
     @Test
     fun `returns null when URL does not exist by the original URL and does not caches it`(){

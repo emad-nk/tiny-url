@@ -8,7 +8,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.http.HttpStatus.CREATED
-import org.springframework.http.HttpStatus.PERMANENT_REDIRECT
+import org.springframework.http.HttpStatus.MOVED_PERMANENTLY
 import org.springframework.http.MediaType.APPLICATION_JSON_VALUE
 import org.springframework.http.ResponseEntity
 import org.springframework.validation.annotation.Validated
@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 import java.net.URI
-import org.springframework.http.HttpStatus.MOVED_PERMANENTLY
 
 @RestController
 @Validated

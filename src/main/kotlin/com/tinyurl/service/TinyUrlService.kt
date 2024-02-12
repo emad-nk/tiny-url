@@ -9,8 +9,8 @@ import com.tinyurl.domain.repository.UrlRepository
 import com.tinyurl.exception.UrlNotFoundException
 import com.tinyurl.property.TinyUrlProperties
 import org.springframework.boot.context.properties.EnableConfigurationProperties
-import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
 @EnableConfigurationProperties(TinyUrlProperties::class)
@@ -19,18 +19,17 @@ class TinyUrlService(
     private val tinyUrlProperties: TinyUrlProperties,
 ) {
 
+    @Transactional
     fun createTinyUrl(urlRequestDTO: UrlRequestDTO): UrlResponseDTO {
         urlRepository.findByOriginalUrl(urlRequestDTO.originalUrl)?.let {
             return UrlResponseDTO(tinyUrl = "${tinyUrlProperties.baseUrl}${it.tinyUrlWithoutDomain}")
         }
         val id = urlRepository.getNewId()
-        val tinyUrlWithoutDomain = convertToBase62(id).take7Chars()
-        return try {
-            urlRepository.save(Url(id = id, tinyUrlWithoutDomain = tinyUrlWithoutDomain, originalUrl = urlRequestDTO.originalUrl))
-            UrlResponseDTO(tinyUrl = "${tinyUrlProperties.baseUrl}$tinyUrlWithoutDomain")
-        } catch (ex: DataIntegrityViolationException) {
-            return handleDuplicateKey(urlRequestDTO.originalUrl)
+
+        if (urlRepository.existsById(id)) {
+            return findNextAvailableId().generateTinyUrl(urlRequestDTO.originalUrl)
         }
+        return id.generateTinyUrl(urlRequestDTO.originalUrl)
     }
 
     fun getOriginalUrl(tinyUrlWithoutDomain: String): String {
@@ -42,11 +41,14 @@ class TinyUrlService(
     /**
      * This is a rare case that probably will never happen
      */
-    private fun handleDuplicateKey(url: String): UrlResponseDTO {
+    private fun findNextAvailableId(): Long {
         urlRepository.setNewId(urlRepository.getLatestId())
-        val id = urlRepository.getNewId()
-        val tinyUrlWithoutDomain = convertToBase62(id).take7Chars()
-        urlRepository.save(Url(id = id, tinyUrlWithoutDomain = tinyUrlWithoutDomain, originalUrl = url))
+        return urlRepository.getNewId()
+    }
+
+    private fun Long.generateTinyUrl(url: String): UrlResponseDTO {
+        val tinyUrlWithoutDomain = convertToBase62(this).take7Chars()
+        urlRepository.save(Url(id = this, tinyUrlWithoutDomain = tinyUrlWithoutDomain, originalUrl = url))
         return UrlResponseDTO(tinyUrl = "${tinyUrlProperties.baseUrl}$tinyUrlWithoutDomain")
     }
 }
