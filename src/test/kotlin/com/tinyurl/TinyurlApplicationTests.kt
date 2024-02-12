@@ -9,5 +9,4 @@ class TinyurlApplicationTests {
     @Test
     fun contextLoads() {
     }
-
 }

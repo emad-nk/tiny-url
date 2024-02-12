@@ -1,0 +1,49 @@
+logging.level:
+  root: INFO
+  org.hibernate.dialect.Dialect: warn
+
+spring:
+  flyway:
+    enabled: true
+  jpa:
+    database: POSTGRESQL
+    generate-ddl: false
+    open-in-view: false
+    properties:
+      hibernate:
+        show_sql: false # This is the default -- we have the property here, so we can easily enable SQL logging.
+  cache:
+    type: redis
+  data:
+    redis:
+      repositories:
+        enabled: false
+      port: 6379
+      host: localhost
+  datasource:
+    url: jdbc:postgresql://localhost:5432/test
+    username: user
+    password: pass
+
+redis:
+  ttl:
+    url-by-original-url: 1h
+    url-by-tiny-url: 1h
+
+tiny-url:
+  base-url: http://localhost:8080/
+
+--- ########################################################################
+spring.config.activate.on-profile: integration-test
+
+tiny-url:
+  base-url: https://tinyurl.com/
+
+--- ########################################################################
+spring.config.activate.on-profile: local
+
+--- ########################################################################
+spring.config.activate.on-profile: staging
+
+--- ########################################################################
+spring.config.activate.on-profile: prod
