@@ -11,6 +11,7 @@ import io.mockk.verify
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
+import org.springframework.dao.DataIntegrityViolationException
 
 class TinyUrlServiceTest {
 
@@ -26,7 +27,7 @@ class TinyUrlServiceTest {
         every { urlRepository.findByOriginalUrl(any()) } returns null
         every { urlRepository.save(any()) } returns dummyUrl()
         every { urlRepository.existsById(any()) } returns false
-        every { urlRepository.getNewId() } returns 1000
+        every { urlRepository.getNewSequenceId() } returns 1000
 
         val responseDTP = tinyUrlService.createTinyUrl(UrlRequestDTO("https://google.com"))
 
@@ -40,23 +41,22 @@ class TinyUrlServiceTest {
         val responseDTP = tinyUrlService.createTinyUrl(UrlRequestDTO("https://google.com"))
 
         assertThat(responseDTP.tinyUrl).isEqualTo("https://tinyurl.com/tzxa")
-        verify(exactly = 0) { urlRepository.getNewId() }
+        verify(exactly = 0) { urlRepository.getNewSequenceId() }
         verify(exactly = 0) { urlRepository.save(any()) }
     }
 
     @Test
-    fun `handles when there is a duplicate id and creates the tiny url`() {
+    fun `handles when there is a duplicate sequenceId and creates the tiny url`() {
         every { urlRepository.findByOriginalUrl(any()) } returns null
-        every { urlRepository.getNewId() } returns 999 andThen 1000
-        every { urlRepository.getLatestId() } returns 999
-        every { urlRepository.setNewId(any()) } returns 999
-        every { urlRepository.existsById(any()) } returns true
-        every { urlRepository.save(any()) } returns dummyUrl()
+        every { urlRepository.getNewSequenceId() } returns 999 andThen 1000
+        every { urlRepository.getLatestSequenceId() } returns 999
+        every { urlRepository.setNewSequenceId(any()) } returns 999
+        every { urlRepository.save(any()) } throws DataIntegrityViolationException("ex") andThen dummyUrl()
         val responseDTP = tinyUrlService.createTinyUrl(UrlRequestDTO("https://google.com"))
 
         assertThat(responseDTP.tinyUrl).isEqualTo("https://tinyurl.com/4FQZqy")
-        verify(exactly = 1) { urlRepository.setNewId(any()) }
-        verify(exactly = 1) { urlRepository.save(any()) }
+        verify(exactly = 1) { urlRepository.setNewSequenceId(any()) }
+        verify(exactly = 2) { urlRepository.save(any()) }
     }
 
     @Test
