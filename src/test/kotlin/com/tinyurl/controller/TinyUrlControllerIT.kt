@@ -26,8 +26,8 @@ class TinyUrlControllerIT(
 
     @Test
     fun `creates a tiny url out of original url`() {
-        urlRepository.setNewId(1)
-        val expectedEncodedValue = convertToBase62(2).take7Chars()
+        urlRepository.setNewSequenceId(1)
+        val expectedEncodedValue = convertToBase62(2)
         val expectedTinyUrl = "${tinyUrlProperties.baseUrl}$expectedEncodedValue"
         val urlRequest = UrlRequestDTO(
             originalUrl = "https://google.com",
@@ -70,10 +70,10 @@ class TinyUrlControllerIT(
     }
 
     @Test
-    fun `creates a tiny url out of original url when there is a clash by id`() {
-        urlRepository.save(dummyUrl(id = 2))
-        urlRepository.setNewId(1) // next id will be 2, but 2 is already taken
-        val expectedEncodedValue = convertToBase62(3).take7Chars()
+    fun `creates a tiny url out of original url when there is a clash by sequenceId`() {
+        urlRepository.save(dummyUrl(sequenceId = 2))
+        urlRepository.setNewSequenceId(1) // next id will be 2, but 2 is already taken
+        val expectedEncodedValue = convertToBase62(3)
         val expectedTinyUrl = "${tinyUrlProperties.baseUrl}$expectedEncodedValue"
         val urlRequest = UrlRequestDTO(
             originalUrl = "https://google.com",
@@ -97,7 +97,7 @@ class TinyUrlControllerIT(
     @Test
     fun `gets the original url when tiny url is correct`() {
         val originalUrl = "https://google.com"
-        val encodedValue = convertToBase62(2).take7Chars()
+        val encodedValue = convertToBase62(2)
 
         urlRepository.save(dummyUrl(tinyUrlWithoutDomain = encodedValue, originalUrl = originalUrl))
 

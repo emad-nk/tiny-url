@@ -16,8 +16,8 @@ class UrlRepositoryIT(
 
     @Test
     fun `sets the current id and retrieves the next id`() {
-        urlRepository.setNewId(10)
-        assertThat(urlRepository.getNewId()).isEqualTo(11)
+        urlRepository.setNewSequenceId(10)
+        assertThat(urlRepository.getNewSequenceId()).isEqualTo(11)
     }
 
     @Test
@@ -31,7 +31,7 @@ class UrlRepositoryIT(
     }
 
     @Test
-    fun `finds a URL by tiny url caches it`() {
+    fun `finds a URL by tiny url and caches it`() {
         val url = dummyUrl(tinyUrlWithoutDomain = "xxbaA")
         urlRepository.save(url)
 
@@ -49,11 +49,11 @@ class UrlRepositoryIT(
 
     @Test
     fun `returns the latest id in the URL table`() {
-        urlRepository.save(dummyUrl(id = 10))
-        urlRepository.save(dummyUrl(id = 8))
-        urlRepository.save(dummyUrl(id = 12))
-        urlRepository.save(dummyUrl(id = 5))
+        urlRepository.save(dummyUrl(sequenceId = 10))
+        urlRepository.save(dummyUrl(sequenceId = 8))
+        urlRepository.save(dummyUrl(sequenceId = 12))
+        urlRepository.save(dummyUrl(sequenceId = 5))
 
-        assertThat(urlRepository.getLatestId()).isEqualTo(12)
+        assertThat(urlRepository.getLatestSequenceId()).isEqualTo(12)
     }
 }

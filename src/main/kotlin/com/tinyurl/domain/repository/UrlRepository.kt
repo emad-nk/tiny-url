@@ -12,18 +12,18 @@ interface UrlRepository : JpaRepository<Url, Long> {
     @Query(
         nativeQuery = true,
         value = """
-            select nextval(pg_get_serial_sequence('url', 'id')) as new_id
+            select nextval(pg_get_serial_sequence('url', 'sequence_id')) as new_sequence_id
         """,
     )
-    fun getNewId(): Long
+    fun getNewSequenceId(): Long
 
     @Query(
         nativeQuery = true,
         value = """
-            select setval(pg_get_serial_sequence('url', 'id'), :id) as new_id
+            select setval(pg_get_serial_sequence('url', 'sequence_id'), :sequenceId) as new_sequence_id
         """,
     )
-    fun setNewId(id: Long): Long
+    fun setNewSequenceId(sequenceId: Long): Long
 
     @Cacheable(URL_BY_ORIGINAL_URL, key = "{#url}", unless = "#result == null")
     fun findByOriginalUrl(url: String): Url?
@@ -34,8 +34,8 @@ interface UrlRepository : JpaRepository<Url, Long> {
     @Query(
         nativeQuery = true,
         value = """
-            select id from url order by id desc limit 1
+            select sequence_id from url order by sequence_id desc limit 1
         """,
     )
-    fun getLatestId(): Long
+    fun getLatestSequenceId(): Long
 }

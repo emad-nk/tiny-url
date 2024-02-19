@@ -1,3 +1,3 @@
 #!/bin/sh
 
-docker-compose -f docker-compose-local.yml -p awards-local up -d
+docker-compose -f docker-compose-local.yml -p tiny-url-local up -d
